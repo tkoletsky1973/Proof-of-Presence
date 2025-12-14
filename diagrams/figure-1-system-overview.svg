@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <!-- Arrowheads -->
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#222"/>
+    </marker>
+    <marker id="arrowThin" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#444"/>
+    </marker>
+
+    <!-- Styles -->
+    <style>
+      .title { font: 700 22px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#111; }
+      .subtitle { font: 400 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#333; }
+      .label { font: 600 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#111; }
+      .text { font: 400 13px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#222; }
+      .note { font: 400 12px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#444; }
+      .box { fill:#fff; stroke:#222; stroke-width:2; rx:14; ry:14; }
+      .boxThin { fill:#fff; stroke:#444; stroke-width:1.6; rx:14; ry:14; }
+      .boundary { fill:none; stroke:#777; stroke-width:2; stroke-dasharray:8 6; rx:18; ry:18; }
+      .arrowSolid { stroke:#222; stroke-width:2.4; fill:none; marker-end:url(#arrow); }
+      .arrowDash { stroke:#444; stroke-width:2.2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrowThin); }
+      .arrowThin { stroke:#444; stroke-width:1.8; fill:none; marker-end:url(#arrowThin); }
+      .muted { fill:#f8f8f8; stroke:#aaa; stroke-width:1.2; rx:14; ry:14; }
+    </style>
+  </defs>
+
+  <!-- Header -->
+  <text x="40" y="52" class="title">Figure 1 — Proof of Presence: System Overview</text>
+  <text x="40" y="78" class="subtitle">Who participates, what data moves, and what is anchored publicly (without storing private location or identity data on-chain).</text>
+
+  <!-- User-Controlled Boundary -->
+  <rect x="55" y="125" width="520" height="500" class="boundary"/>
+  <text x="75" y="155" class="label">User-Controlled Environment</text>
+  <text x="75" y="176" class="note">Encrypted attestations are stored here. The user decides what to disclose.</text>
+
+  <!-- User Client -->
+  <rect x="95" y="220" width="440" height="120" class="box"/>
+  <text x="120" y="255" class="label">Individual (User) + Client</text>
+  <text x="120" y="278" class="text">• Holds keys</text>
+  <text x="120" y="300" class="text">• Receives attestations</text>
+  <text x="120" y="322" class="text">• Builds claims + selective disclosures</text>
+
+  <!-- Encrypted Storage -->
+  <rect x="95" y="385" width="440" height="110" class="muted"/>
+  <text x="120" y="420" class="label">Off-Chain Encrypted Storage</text>
+  <text x="120" y="443" class="text">• Full attestation payloads (encrypted)</text>
+  <text x="120" y="465" class="text">• Under user custody (device / vault / backup)</text>
+
+  <!-- Claim Package -->
+  <rect x="95" y="525" width="440" height="80" class="boxThin"/>
+  <text x="120" y="560" class="label">Claim Package (Disclosed to Verifier)</text>
+  <text x="120" y="582" class="text">Minimum proof required for a specific verification request</text>
+
+  <!-- Attester -->
+  <rect x="655" y="210" width="500" height="140" class="box"/>
+  <text x="680" y="245" class="label">Attester</text>
+  <text x="680" y="268" class="text">• Confirms physical presence in a defined context</text>
+  <text x="680" y="290" class="text">• Signs a presence attestation</text>
+  <text x="680" y="312" class="text">• May publish revocations (if needed)</text>
+
+  <!-- Public Ledger -->
+  <rect x="655" y="390" width="500" height="120" class="box"/>
+  <text x="680" y="425" class="label">Public Ledger (Blockchain)</text>
+  <text x="680" y="448" class="text">• Stores commitments (hashes), timestamps, and revocation refs</text>
+  <text x="680" y="470" class="text">• Does NOT store raw location, identity, or movement history</text>
+
+  <!-- Verifier -->
+  <rect x="655" y="545" width="500" height="120" class="box"/>
+  <text x="680" y="580" class="label">Verifier</text>
+  <text x="680" y="603" class="text">• Validates claim proofs</text>
+  <text x="680" y="625" class="text">• Checks ledger commitments + revocation status</text>
+
+  <!-- Solid data flows -->
+  <!-- Attester issues attestation to user -->
+  <path d="M655,265 C600,265 600,265 545,265" class="arrowSolid"/>
+  <text x="560" y="248" class="note">Signed attestation</text>
+
+  <!-- User stores encrypted attestation -->
+  <path d="M315,340 C315,355 315,355 315,385" class="arrowThin"/>
+  <text x="330" y="368" class="note">Store (encrypted)</text>
+
+  <!-- Commitments anchored to ledger -->
+  <path d="M905,350 C905,370 905,370 905,390" class="arrowSolid"/>
+  <text x="920" y="372" class="note">Commitment (hash)</text>
+
+  <!-- Revocation references to ledger -->
+  <path d="M985,350 C985,370 985,370 985,390" class="arrowThin"/>
+  <text x="1000" y="372" class="note">Revocation ref (optional)</text>
+
+  <!-- User discloses claim package to verifier -->
+  <path d="M535,565 C600,565 600,565 655,565" class="arrowSolid"/>
+  <text x="555" y="548" class="note">Selective disclosure</text>
+
+  <!-- Dashed verification flows -->
+  <!-- Verifier checks ledger -->
+  <path d="M905,665 C905,610 905,610 905,510" class="arrowDash"/>
+  <text x="920" y="600" class="note">Verify commitments</text>
+
+  <!-- Verifier trusts attester key / scope (conceptual) -->
+  <path d="M855,545 C855,430 855,430 855,350" class="arrowDash"/>
+  <text x="870" y="450" class="note">Trust scope + keys</text>
+
+  <!-- Legend -->
+  <rect x="55" y="645" width="520" height="55" class="boxThin"/>
+  <text x="75" y="678" class="label">Legend</text>
+  <line x1="170" y1="672" x2="250" y2="672" class="arrowSolid"/>
+  <text x="265" y="676" class="text">Solid: data exchange</text>
+  <line x1="430" y1="672" x2="510" y2="672" class="arrowDash"/>
+  <text x="525" y="676" class="text">Dashed: verification / checks</text>
+</svg>
