@@ -1231,3 +1231,322 @@ Any party that evaluates a presence claim to determine whether it satisfies a gi
 Optional cryptographic methods that allow claims to be verified without revealing underlying data beyond the truth of the claim itself.
 
 
+## Appendix B: Mobile-First UI/UX Walkthrough
+
+Proof of Presence is designed to function primarily as a mobile application. Presence occurs in the physical world, and attestation moments are inherently mobile. Desktop and web interfaces are secondary and optional.
+
+This appendix describes the mobile user experience for individuals, attesters, and verifiers.
+
+---
+
+### B.1 Mobile Design Principles
+
+- **Presence is occasional, not constant**  
+  The app is not “always on.” It is opened at moments of presence or proof.
+
+- **Default privacy, explicit disclosure**  
+  Nothing is shared unless the user actively approves it.
+
+- **Fast, low-friction interactions**  
+  Attestation issuance should take seconds, not minutes.
+
+- **No maps, no GPS, no timelines**  
+  The UI avoids visual metaphors that imply tracking.
+
+---
+
+### B.2 User App — Core Screens (Mobile)
+
+#### Screen 1 — Home / Wallet
+
+Purpose: Status + confidence
+
+Displays:
+- Presence wallet status (✔ secure / ⚠ backup recommended)
+- Attestation count (e.g., “12 attestations stored”)
+- Recent activity (time-based, not location-based)
+- Quick actions:
+  - **Request Attestation**
+  - **Create Claim**
+  - **Share Claim**
+
+No location history is shown by default.
+
+---
+
+#### Screen 2 — Request Attestation (Scan)
+
+Purpose: Opt-in to a presence moment
+
+Flow:
+- User taps **Request Attestation**
+- Camera opens automatically
+- User scans:
+  - QR code
+  - NFC tap
+  - Short code (fallback)
+
+What user sees next:
+- Attester name
+- Attester scope (e.g., “Event Attendance”, “Border Entry Zone”)
+- Data to be included:
+  - Location zone (coarse)
+  - Time window
+  - Attester signature
+
+Primary button:
+- **Approve & Sign**
+
+Secondary (advanced):
+- “View technical details”
+
+---
+
+#### Screen 3 — Attestation Received
+
+Purpose: Confirmation, not analysis
+
+Displays:
+- ✅ Attestation verified
+- Attester name
+- Zone label (human-readable)
+- Time window
+- Status:
+  - “Anchored on-chain” or
+  - “Pending anchor” (with explanation)
+
+User actions:
+- **Done** (default)
+- “Create claim from this”
+- “View encrypted record” (advanced)
+
+No prompts to share. No prompts to export.
+
+---
+
+#### Screen 4 — Create Claim
+
+Purpose: Turn attestations into proof
+
+User selects claim type:
+- Duration (≥ X days)
+- Count (≥ X occurrences)
+- Period (present during a range)
+- Custom (advanced)
+
+Then selects:
+- Zone (country / region / context)
+- Threshold
+- Disclosure level:
+  - **Minimal (default)** – proves condition only
+  - Standard – adds coarse context
+  - Detailed – reveals exact windows
+
+System preview:
+- “What the verifier will learn”
+- “What will remain private”
+
+Primary button:
+- **Generate Claim**
+
+---
+
+#### Screen 5 — Share Claim
+
+Purpose: Controlled, temporary disclosure
+
+Sharing methods:
+- QR code (default)
+- Secure link
+- File export (advanced)
+
+Controls:
+- Expiration time (default: 72 hours)
+- One-time use toggle
+- Optional verifier lock (domain / public key)
+
+User sees:
+- Claim summary
+- Disclosure preview
+- Expiration countdown
+
+Button:
+- **Share**
+
+Secondary:
+- “Revoke access” (immediate)
+
+---
+
+### B.3 Attester Mobile UX (Staff / Kiosk)
+
+Attesters typically use:
+- A locked-down mobile device
+- A kiosk tablet
+- Or a staff phone with an attester app
+
+Attester flow:
+1. Select active context (zone + scope)
+2. App displays QR / NFC challenge
+3. User scans + signs
+4. Attester confirms presence
+5. Attestation is issued instantly
+
+Attester app **does not store**:
+- User identity
+- Movement history
+- Long-term presence data
+
+Dashboard (optional):
+- Issuance count
+- Key health
+- Revocation tools
+- Batch anchor status
+
+---
+
+### B.4 Verifier Mobile UX
+
+Verifiers may be:
+- Border agents
+- Event staff
+- Employers
+- Aid workers
+- Institutional portals (mobile-compatible)
+
+Verifier flow:
+1. Scan QR / open link
+2. App verifies:
+   - Claim proof
+   - Attester scope
+   - Ledger commitment
+   - Revocation status
+3. Result shown clearly:
+
+Result states:
+- ✅ Valid
+- ❌ Invalid
+- ⚠ Expired
+- ⚠ Insufficient disclosure
+- ⚠ Revoked
+
+Displayed data is minimal by design.
+
+---
+
+### B.5 When Users Actually Use the App
+
+Users open the app only when:
+- Entering or exiting a presence context
+- Participating in an event or program
+- Asked to prove presence later
+
+They do **not**:
+- Check in daily
+- Enable background tracking
+- Maintain a presence timeline
+
+The app behaves like a **wallet for facts**, not a monitoring tool.
+
+---
+
+### B.6 Relationship to Infrastructure
+
+The mobile app is a client, not the system.
+
+It depends on:
+- Attester infrastructure (issuance)
+- Public ledger (commitments)
+- Verification libraries (claims)
+
+If the app disappears, **the proofs still work**.
+
+---
+
+## Appendix C: Example User Scenario + Infrastructure Required
+
+### C.1 Example Scenario: Digital Nomad Visa (Duration Claim)
+
+#### Goal
+User must prove “≥ 30 days physically present in Japan” without revealing exact itinerary.
+
+#### What happens in the real world
+- User receives attestations at discrete moments:
+  - airport entry zone attestation
+  - hotel check-in zone attestation(s) (optional)
+  - university/workspace/event attestations (optional)
+  - airport exit zone attestation (optional)
+
+No tracking. Only moments.
+
+#### User steps
+1. User installs PoP client and completes local backup setup.
+2. At entry (airport), user opts in and receives a signed attestation.
+3. Over the month, user optionally collects additional attestations (hotels, events, coworking).
+4. User opens “Create Claim” → selects:
+   - Zone: Japan
+   - Threshold: ≥ 30 days
+   - Disclosure: Minimal
+5. User shares claim to visa portal verifier.
+
+#### Verifier steps
+1. Visa portal ingests claim package.
+2. System validates the proof against public ledger commitments + revocation status.
+3. Portal displays: “VALID: ≥ 30 days in Japan” with attester scope evidence.
+
+What the verifier does NOT get:
+- GPS trail
+- list of hotels
+- exact dates (unless disclosure chosen)
+- identity beyond what the visa system already requires externally
+
+---
+
+### C.2 Infrastructure Required (What must exist)
+
+This protocol requires infrastructure at three layers: attester infrastructure, user infrastructure, and public verification infrastructure.
+
+#### Attester Infrastructure
+Minimum requirements:
+- Accredited attester identity + public key
+- Signing service (HSM preferred for institutional attesters)
+- Context configuration (zone, scope, time window policy)
+- Issuance interface (kiosk app / mobile app / backend)
+- Revocation capability (publish revocation refs)
+Optional:
+- Batch anchoring service for cost efficiency
+- Monitoring + audit logs (non-sensitive)
+
+#### User Infrastructure
+Minimum requirements:
+- Client capable of:
+  - key management
+  - receiving attestations
+  - storing encrypted payloads
+  - generating claim proofs
+  - producing shareable claim packages
+Optional:
+- Cloud backup (encrypted, user-controlled)
+- Hardware wallet integration
+- Recovery mechanism (social recovery / seed management)
+
+#### Public Infrastructure
+Minimum requirements:
+- Public ledger availability for commitments
+- Public attester registry (keys + scopes + accreditation status)
+- Open verification library (reference implementation)
+Optional:
+- Multi-ledger support
+- Rollup/batching for anchoring
+- Public explorer for commitment existence checks (no personal data)
+
+---
+
+### C.3 Operational Timing: When Users Use It
+
+Users interact with PoP only at:
+- moments of verified presence (attestation issuance)
+- moments of need (claim creation + disclosure)
+
+They do not interact with it continuously.
+The system does not “run in the background” to track them.
