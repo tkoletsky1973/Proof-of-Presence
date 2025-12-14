@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#222"/>
+    </marker>
+
+    <style>
+      .title { font: 700 22px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#111; }
+      .subtitle { font: 400 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#333; }
+      .label { font: 700 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#111; }
+      .text { font: 400 13px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#222; }
+      .note { font: 400 12px system-ui, -apple-system, Segoe UI, Roboto, Arial; fill:#444; }
+      .box { fill:#fff; stroke:#222; stroke-width:2; rx:14; ry:14; }
+      .muted { fill:#f8f8f8; stroke:#999; stroke-width:1.4; rx:14; ry:14; }
+      .arrow { stroke:#222; stroke-width:2.4; fill:none; marker-end:url(#arrow); }
+      .dash { stroke:#444; stroke-width:2.2; fill:none; stroke-dasharray:7 6; marker-end:url(#arrow); }
+      .callout { fill:#fff; stroke:#444; stroke-width:1.6; rx:12; ry:12; }
+    </style>
+  </defs>
+
+  <!-- Header -->
+  <text x="40" y="52" class="title">Figure 2 — Presence Attestation Flow (Moment-Based)</text>
+  <text x="40" y="78" class="subtitle">How a single presence attestation is issued, anchored, stored, and later used — without continuous monitoring.</text>
+
+  <!-- Callout: No tracking -->
+  <rect x="780" y="105" width="380" height="80" class="callout"/>
+  <text x="805" y="140" class="label">No Continuous Monitoring</text>
+  <text x="805" y="162" class="text">PoP records discrete moments (attestations),</text>
+  <text x="805" y="182" class="text">not a live location feed or movement history.</text>
+
+  <!-- Step boxes -->
+  <!-- 1 -->
+  <rect x="70" y="210" width="300" height="150" class="box"/>
+  <text x="95" y="245" class="label">1) User Opts In</text>
+  <text x="95" y="270" class="text">User initiates an attestation request</text>
+  <text x="95" y="292" class="text">in a specific context (airport, event,</text>
+  <text x="95" y="314" class="text">campus, workplace, etc.).</text>
+  <text x="95" y="338" class="note">No passive collection.</text>
+
+  <!-- 2 -->
+  <rect x="450" y="210" width="300" height="150" class="box"/>
+  <text x="475" y="245" class="label">2) Attester Confirms Presence</text>
+  <text x="475" y="270" class="text">Attester verifies physical presence</text>
+  <text x="475" y="292" class="text">within its authorized scope using</text>
+  <text x="475" y="314" class="text">existing operational methods.</text>
+  <text x="475" y="338" class="note">Scope-limited authority.</text>
+
+  <!-- 3 -->
+  <rect x="830" y="210" width="300" height="150" class="box"/>
+  <text x="855" y="245" class="label">3) Attestation Issued</text>
+  <text x="855" y="270" class="text">Attester signs an attestation containing:</text>
+  <text x="855" y="292" class="text">• location zone (not coordinates)</text>
+  <text x="855" y="314" class="text">• time window</text>
+  <text x="855" y="336" class="text">• attester signature + key reference</text>
+
+  <!-- 4 -->
+  <rect x="250" y="430" width="330" height="150" class="box"/>
+  <text x="275" y="465" class="label">4) Commitment Anchored On-Chain</text>
+  <text x="275" y="490" class="text">A cryptographic commitment (hash)</text>
+  <text x="275" y="512" class="text">of the attestation is written to the ledger</text>
+  <text x="275" y="534" class="text">with timestamp + attester identifier.</text>
+  <text x="275" y="558" class="note">No raw presence data on-chain.</text>
+
+  <!-- 5 -->
+  <rect x="650" y="430" width="330" height="150" class="muted"/>
+  <text x="675" y="465" class="label">5) Encrypted Storage (User-Controlled)</text>
+  <text x="675" y="490" class="text">Full attestation is stored off-chain:</text>
+  <text x="675" y="512" class="text">• encrypted</text>
+  <text x="675" y="534" class="text">• under user custody</text>
+  <text x="675" y="556" class="text">• portable across institutions</text>
+
+  <!-- 6 -->
+  <rect x="970" y="430" width="160" height="150" class="box"/>
+  <text x="990" y="465" class="label">6) Later: Claim</text>
+  <text x="990" y="490" class="text">User derives</text>
+  <text x="990" y="512" class="text">a claim (e.g.</text>
+  <text x="990" y="534" class="text">“30 days”) and</text>
+  <text x="990" y="556" class="text">discloses minimum proof.</text>
+
+  <!-- Arrows: top row -->
+  <path d="M370,285 L450,285" class="arrow"/>
+  <path d="M750,285 L830,285" class="arrow"/>
+
+  <!-- Arrow: step 3 to step 4 (down-left) -->
+  <path d="M980,360 C980,405 650,405 580,445" class="arrow"/>
+  <text x="770" y="405" class="note">commitment derived</text>
+
+  <!-- Arrow: step 3 to step 5 (down) -->
+  <path d="M980,360 C980,405 845,405 815,430" class="arrow"/>
+  <text x="860" y="405" class="note">full attestation</text>
+
+  <!-- Arrow: step 5 to step 6 -->
+  <path d="M980,505 L970,505" class="arrow"/>
+
+  <!-- Dashed arrow: claim verification checks ledger (conceptual) -->
+  <path d="M1050,430 C1060,360 520,360 420,430" class="dash"/>
+  <text x="640" y="360" class="note">verifier checks on-chain commitments + revocations</text>
+
+  <!-- Footer note -->
+  <text x="40" y="675" class="note">
+    Note: Attesters may batch on-chain anchoring or use rollups for cost efficiency. This does not change protocol semantics.
+  </text>
+</svg>
